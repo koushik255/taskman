@@ -1,5 +1,1 @@
-command line tool which just gives you a list of soccer matches today
 
-make a command-line tool or something on the cli which doesnt intereact with an api of somesorts, im not running into another limit after spending like 2 weeks on a porject and that being teh results
-
-make a comman line task manager 
