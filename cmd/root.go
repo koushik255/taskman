@@ -3,10 +3,11 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
-	"github.com/spf13/cobra"
 	blud "awesomeness/funcs"
 
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -15,7 +16,7 @@ var rootCmd = &cobra.Command{
 	Short: "A simple CLI application",
 	Long:  `Made with Cobra and Go`,
 	Run: func(cmd *cobra.Command, args []string) {
-		
+
 		blud.SwitchCase()
 	},
 }
@@ -53,6 +54,16 @@ func init() {
 		},
 	}
 
+	var addTaskCmd = &cobra.Command{
+		Use: "add [task]",
+		Short: "Adds a task!",
+		Args: cobra.MaximumNArgs(10),
+		Run: func(cmd *cobra.Command, args []string) {
+			task := strings.Join(args, " ")
+			blud.AddTask(task)
+		},
+	}
+
 
 
 	// Add flags to greet command
@@ -60,4 +71,5 @@ func init() {
 	
 	// Add greet command to root command
 	rootCmd.AddCommand(greetCmd)
+	rootCmd.AddCommand(addTaskCmd)
 }

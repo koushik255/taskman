@@ -34,6 +34,42 @@ func showOptions() {
     	fmt.Println("Type 'exit' to exit the program!")
 }
 
+func AddTask(task string){
+	Start()
+	// fmt.Println("add")
+    // 	reader := bufio.NewReader(os.Stdin)
+    // fmt.Println("Type your Task!")
+
+    // input, err := reader.ReadString('\n')
+    // if err != nil {
+    // 	fmt.Println("Error reading input: ",err)
+    // 	return
+    // }
+	testComplete := 1
+	err := db.AddTask(task,testComplete)
+	if err != nil {
+		fmt.Printf("Error adding task %v ",err)
+	}
+}
+
+func AddTaskOriginal(){
+	Start()
+	fmt.Println("add")
+    	reader := bufio.NewReader(os.Stdin)
+    fmt.Println("Type your Task!")
+
+    input, err := reader.ReadString('\n')
+    if err != nil {
+    	fmt.Println("Error reading input: ",err)
+    	return
+    }
+	testComplete := 1
+	err = db.AddTask(input,testComplete)
+	if err != nil {
+		fmt.Printf("Error adding task %v ",err)
+	}
+}
+
 
 
 func SwitchCase() {
@@ -53,20 +89,7 @@ func SwitchCase() {
 
 	switch input {
     case "1":
-    	fmt.Println("add")
-    	reader := bufio.NewReader(os.Stdin)
-    fmt.Println("Type your Task!")
-
-    input, err := reader.ReadString('\n')
-    if err != nil {
-    	fmt.Println("Error reading input: ",err)
-    	return
-    }
-	testComplete := 1
-	err = db.AddTask(input,testComplete)
-	if err != nil {
-		fmt.Printf("Error adding task %v ",err)
-	}
+    	AddTaskOriginal()
 
    	case "2":
    		fmt.Println("complete tasks")

@@ -114,6 +114,45 @@ func AddTask(task string,completed int) error {
 	return nil
 }
 
+
+// func AddTaskCmd(task []string,completed int) error {
+// 	err := SaveTaskCmd(task,completed)
+// 	if err != nil {
+// 		return fmt.Errorf("Error adding task to db %v",err)
+// 	}
+// 	return nil
+// }
+
+func SaveTaskCmd(task []string, completed int) error {
+	if db == nil {
+		return fmt.Errorf("datanase not inited")
+	}
+
+	updateSQL := `UPDATE tasks SET completed = ?, updated_at = CURRENT_TIMESTAMP WHERE task = ?`
+	result, err := db.Exec(updateSQL,task,completed)
+	if err != nil {
+		return fmt.Errorf("Failed to update tasK :%v",err)
+	}
+
+	rowsAffected , err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %v",err)
+
+	}
+
+	if rowsAffected == 0 {
+		insertSQL := `INSERT INTO tasks (task,completed) VALUES (?,?)`
+		_,err = db.Exec(insertSQL,task,completed)
+		if err != nil {
+			return fmt.Errorf("Failed to insert task: %v",err)
+		}
+		log.Printf("Inserted new task %s with completed status of %d",task,completed)
+	} else {
+		log.Printf("Updated task %s with completed status of %d",task,completed )
+	}
+	return nil
+}
+
 func GetAllTasks() ([]Task, error) {
     if db == nil {
         return nil, fmt.Errorf("database not initialized")
