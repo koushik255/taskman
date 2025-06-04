@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	db "awesomeness/db"
-	"github.com/spf13/cobra"
+	cmd "awesomeness/cmd"
 )
 
 func showTasks(){
@@ -35,42 +35,9 @@ func showOptions() {
     	fmt.Println("Type 'exit' to exit the program!")
 }
 
-func main() {
-	dbPath:= "./tasks.db"
-	err := db.InitDatabase(dbPath)
-	if err != nil {
-		log.Fatalf("failed to init database: %v",err)
-	}
-	fmt.Printf("Database initlizaed at : %s\n", dbPath)
-	
-	// testTask := "Walk dog"
-	// testComplete := 1
-	// err = db.AddTask(testTask,testComplete)
-	// if err != nil {
-	// 	fmt.Printf("Error adding task %v ",err)
-	// }
+func switchCase() {
 
-	// err = db.DeleteTask(2) 
-	// if err != nil {
-	// 	fmt.Printf("Error deleteing Task! %v",err)
-	// }
-
-
-	// tasks, err := db.GetAllTasks()
-    // if err != nil {
-    //     log.Printf("Error retrieving tasks: %v", err)
-    // } else {
-    //     for _, task := range tasks {
-    //         log.Printf("Task ID: %d, Task: %s, Completed: %d, Created At: %s, Updated At: %s",
-    //             task.ID, task.Task, task.Completed, task.CreatedAt, task.UpdatedAt)
-    //     }
-    // }
-    fmt.Println("------WELCOME TO TASK MANAGER-------")
-    
-    
-
-
-    reader := bufio.NewReader(os.Stdin)
+	 reader := bufio.NewReader(os.Stdin)
     for {
    		showOptions()
 
@@ -84,11 +51,7 @@ func main() {
 
     input = strings.TrimSpace(input)
 
-    
-
-
-
-    switch input {
+	switch input {
     case "1":
     	fmt.Println("add")
     	reader := bufio.NewReader(os.Stdin)
@@ -142,8 +105,51 @@ func main() {
    		fmt.Println("you chose none")
     }
 
-
-
+ }
 }
+
+
+
+
+
+
+func main() {
+
+
+	dbPath:= "./tasks.db"
+	err := db.InitDatabase(dbPath)
+	if err != nil {
+		log.Fatalf("failed to init database: %v",err)
+	}
+	fmt.Printf("Database initlizaed at : %s\n", dbPath)
+	
+	// testTask := "Walk dog"
+	// testComplete := 1
+	// err = db.AddTask(testTask,testComplete)
+	// if err != nil {
+	// 	fmt.Printf("Error adding task %v ",err)
+	// }
+
+	// err = db.DeleteTask(2) 
+	// if err != nil {
+	// 	fmt.Printf("Error deleteing Task! %v",err)
+	// }
+
+
+	// tasks, err := db.GetAllTasks()
+    // if err != nil {
+    //     log.Printf("Error retrieving tasks: %v", err)
+    // } else {
+    //     for _, task := range tasks {
+    //         log.Printf("Task ID: %d, Task: %s, Completed: %d, Created At: %s, Updated At: %s",
+    //             task.ID, task.Task, task.Completed, task.CreatedAt, task.UpdatedAt)
+    //     }
+    // }
+    cmd.Execute()
+
+    fmt.Println("------WELCOME TO TASK MANAGER-------")
+    
+    switchCase()
+
 }
 
