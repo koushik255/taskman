@@ -75,6 +75,18 @@ func init() {
 		},
 	}
 
+	var deleteTaskCmd = &cobra.Command{
+		Use: "del",
+		Short: "Deletes a Task",
+		Args: cobra.MaximumNArgs(1),
+		Run : func(cmd *cobra.Command, args []string){
+			task := strings.Join(args, "")
+			blud.Start()
+			blud.CompleteTask(task)
+
+		},
+	}
+
 
 
 	// Add flags to greet command
@@ -84,4 +96,5 @@ func init() {
 	rootCmd.AddCommand(greetCmd)
 	rootCmd.AddCommand(addTaskCmd)
 	rootCmd.AddCommand(showTaskCmd)
+	rootCmd.AddCommand(deleteTaskCmd)
 }

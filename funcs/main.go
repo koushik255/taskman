@@ -73,6 +73,31 @@ func AddTaskOriginal(){
 	}
 }
 
+func CompleteTask(task string) {
+	fmt.Println("complete tasks")
+   		ShowTasks()
+   	// 	reader := bufio.NewReader(os.Stdin)
+    // fmt.Println("Type your Task to Complete!")
+
+    // input, err := reader.ReadString('\n')
+    // if err != nil {
+    // 	fmt.Println("Error reading input: ",err)
+    // 	return
+    // }
+    task = strings.TrimSpace(task)
+    taskToDelete,err := strconv.Atoi(task)
+    if err != nil {
+    	fmt.Println("error converting string to int",err)
+    }
+	err = db.DeleteTask(taskToDelete)
+	if err != nil {
+		fmt.Println("-------------------------")
+		fmt.Printf("Error deleting task %v\n",err)
+		fmt.Println("-------------------------")
+	}
+	
+	ShowTasks()
+}
 
 
 func SwitchCase() {
