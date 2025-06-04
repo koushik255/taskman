@@ -11,7 +11,7 @@ import (
 	db "awesomeness/db"
 )
 
-func showTasks(){
+func ShowTasks(){
 	tasks, err := db.GetAllTasks()
     if err != nil {
         log.Printf("Error retrieving tasks: %v", err)
@@ -24,7 +24,10 @@ func showTasks(){
             fmt.Println("-----------------------------")
     }
 }
+
 }
+
+
 
 func showOptions() {
 		fmt.Println("Select a option")
@@ -93,7 +96,7 @@ func SwitchCase() {
 
    	case "2":
    		fmt.Println("complete tasks")
-   		showTasks()
+   		ShowTasks()
    		reader := bufio.NewReader(os.Stdin)
     fmt.Println("Type your Task to Complete!")
 
@@ -115,11 +118,11 @@ func SwitchCase() {
 
 	}
 
-	showTasks()
+	ShowTasks()
 
    	case "3":
    		fmt.Println("Show tasks")
-   		showTasks()
+   		ShowTasks()
    	case "exit":
    		fmt.Println("Exiting program")
    		os.Exit(0)

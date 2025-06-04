@@ -64,6 +64,17 @@ func init() {
 		},
 	}
 
+	var showTaskCmd = &cobra.Command{
+		Use: "show",
+		Short: "Shows the tasks",
+		Args: cobra.MaximumNArgs(1),
+		Run : func(cmd *cobra.Command, args []string){
+			// input := strings.Join(input, "")
+			blud.Start()
+			blud.ShowTasks()
+		},
+	}
+
 
 
 	// Add flags to greet command
@@ -72,4 +83,5 @@ func init() {
 	// Add greet command to root command
 	rootCmd.AddCommand(greetCmd)
 	rootCmd.AddCommand(addTaskCmd)
+	rootCmd.AddCommand(showTaskCmd)
 }
