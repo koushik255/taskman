@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	blud "awesomeness/funcs"
+
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -13,7 +15,8 @@ var rootCmd = &cobra.Command{
 	Short: "A simple CLI application",
 	Long:  `Made with Cobra and Go`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hello from Taskman!")
+		
+		blud.SwitchCase()
 	},
 }
 
@@ -49,6 +52,8 @@ func init() {
 			fmt.Println(greeting)
 		},
 	}
+
+
 
 	// Add flags to greet command
 	greetCmd.Flags().BoolP("uppercase", "u", false, "Display the greeting in uppercase")
