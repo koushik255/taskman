@@ -84,27 +84,38 @@ func ShowTasks(){
 
 }
 
+func print_Confirm(x string) {
+	style := pterm.NewStyle(pterm.BgGray, pterm.FgLightWhite, pterm.Bold)
+	style.Printfln("%s",x)
+} 
 
 
 func Take_input() (string,error) {
-	reader := bufio.NewReader(os.Stdin)
+	// reader := bufio.NewReader(os.Stdin)
+	result, _ := pterm.DefaultInteractiveTextInput.Show()
 
-    input, err := reader.ReadString('\n')
-    if err != nil {
-    	fmt.Println("Error reading input: ",err)
-    	return "",err
-    }
-    input = strings.TrimSpace(input)
+
+	pterm.Info.Printfln("Your input: %s",result)
+
+    // input, err := reader.ReadString('\n')
+    // if err != nil {
+    // 	fmt.Println("Error reading input: ",err)
+    // 	return "",err
+    // }
+    input := strings.TrimSpace(result)
     return input, nil
 }
 
 
 func showOptions() {
-		fmt.Println("Select a option")
-    	fmt.Println("Select option 1 to create a new Task!")
-    	fmt.Println("Select option 2 to Complete a Task!")
-    	fmt.Println("Select option 3 to show all Tasks")
-    	fmt.Println("Type 'exit' to exit the program!")
+		// fmt.Println("Select a option")
+    	// fmt.Println("Select option `add` to create a new Task!")
+    	// fmt.Println("Select option `del` to Complete a Task!")
+    	// fmt.Println("Select option `show` to show all Tasks")
+    	// fmt.Println("Type 'exit' to exit the program")
+
+    	pterm.Info.Println("Type 'add' to create a new Task!\nType 'del' to delete a Task\nType 'show' to show all Tasks!\nType 'exit' to quit!")
+
 
 }
 
@@ -187,12 +198,12 @@ func SwitchCase() {
     input = strings.TrimSpace(input)
 
 	switch input {
-    case "1":
+    case "add":
     	AddTaskOriginal()
 
-   	case "2":
-   		fmt.Println("complete tasks")
-   	    fmt.Println("Type your Task to Complete!")
+   	case "del":
+   		print_Confirm("Delete Tasks!")
+   		print_Confirm("Type your Task to Complete!")
 
 
    		ShowTasks()
@@ -216,10 +227,13 @@ func SwitchCase() {
 
 	ShowTasks()
 
-   	case "3":
-   		fmt.Println("-------------------------")
-   		fmt.Println("Showing Tasks")
-   		fmt.Println("-------------------------")
+   	case "show":
+   		
+   		print_Confirm("Showing Tasks!")
+   		// fmt.Println("-------------------------")
+   		// style.Println("Showing Tasks!")
+   		// fmt.Println("Showing Tasks")
+   		// fmt.Println("-------------------------")
    		ShowTasks()
    	case "exit":
    		fmt.Println("Exiting program")
@@ -245,7 +259,8 @@ func Start() {
 	if err != nil {
 		log.Fatalf("failed to init database: %v",err)
 	}
-	fmt.Printf("Database initlizaed at : %s\n", dbPath)
+	// fmt.Printf("Database initlizaed at : %s\n", dbPath)
+	pterm.Info.Printf("Database initlizaed at: %s\n", dbPath)
 
 	text := "Task Man"
 
@@ -255,7 +270,9 @@ func Start() {
 		
 	
 
-    fmt.Println("------WELCOME TO TASK MANAGER-------")
+    // fmt.Println("------WELCOME TO TASK MANAGER-------")
+    // pterm.DefaultHeader.Println("WELCOME TO TASK MAN!")
+    pterm.DefaultHeader.WithMargin(20).WithBackgroundStyle(pterm.NewStyle(pterm.BgRed)).WithTextStyle(pterm.NewStyle(pterm.FgBlack)).Println("WELCOME TO TASK MANAGER")
 	
 	// testTask := "Walk dog"
 	// testComplete := 1

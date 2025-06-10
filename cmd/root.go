@@ -33,8 +33,7 @@ func Execute() {
 func init() {
 	// Add commands and flags in init()
 	
-	
-	
+
 
 	var addTaskCmd = &cobra.Command{
 		Use: "add [task]",
