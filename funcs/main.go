@@ -1,4 +1,4 @@
- package blud
+package blud
 
 import (
 	"bufio"
@@ -9,20 +9,77 @@ import (
 	"strings"
 
 	db "awesomeness/db"
+
+	"github.com/pterm/pterm"
+	"github.com/pterm/pterm/putils"
+
+
 )
+
+
+
+func completeCheck(x int) string {
+	if x == 1 {
+		return "no"
+	} else {
+		return ""
+	}
+}
 
 func ShowTasks(){
 	tasks, err := db.GetAllTasks()
     if err != nil {
         log.Printf("Error retrieving tasks: %v", err)
     } else {
+
+    	tableData := pterm.TableData{
+            		{"TaskID", "Task","Completed","CreatedAt","UpdatedAt"},
+            }
         for _, task := range tasks {
             // log.Printf("Task ID: %d, Task: %s, Completed: %d, Created At: %s, Updated At: %s",
             //     task.ID, task.Task, task.Completed, task.CreatedAt, task.UpdatedAt)
             // fmt.Printf("taaskID: %d, Task: %s, Completed: %d, CreatedAt :%s, UpdatedAt :%s",task.ID, task.Task, task.Completed, task.CreatedAt, task.UpdatedAt)
-            fmt.Println("TaskID:",task.ID,"Task:",task.Task,"Completed: ",task.Completed, "CreatedAt:",task.Completed,"UpdatedAt:",task.UpdatedAt)
-            fmt.Println("-----------------------------")
+            // fmt.Println("TaskID:",task.ID,"Task:",task.Task,"Completed: ",task.Completed, "CreatedAt:",task.Completed,"UpdatedAt:",task.UpdatedAt)
+            // fmt.Println("-----------------------------")
+            // its making a whole new table every file because the data is being looped over,
+            // i need a way to collect the data so that il be able to append it to 
+            // the table?
+
+
+            timeFormat := "2006-01-02 15:04:05"
+
+            
+            tableData = append(tableData, []string{
+            	strconv.Itoa(task.ID),task.Task,completeCheck(task.Completed),task.CreatedAt.Format(timeFormat),task.UpdatedAt.Format(timeFormat),
+            	 })
+
+
+            // err := pterm.DefaultTable.WithHasHeader().WithData(tableData).Render()
+            // if err != nil {
+            // 	fmt.Println(err)
+            // 	return
+            // }
+            
+            }
+
+            // theStyle := pterm.NewStyle(pterm.BgDarkGray)
+            
+            // unicode := '\u035e'
+            // stringString := string(unicode)
+
+            lilMin := "⬌"
+            // ⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌⬌
+           
+
+
+
+            err := pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(tableData).WithRowSeparator(lilMin).Render()
+            if err != nil {
+            	fmt.Println(err)
+            	return
+
     }
+
 }
 
 }
@@ -48,6 +105,7 @@ func showOptions() {
     	fmt.Println("Select option 2 to Complete a Task!")
     	fmt.Println("Select option 3 to show all Tasks")
     	fmt.Println("Type 'exit' to exit the program!")
+
 }
 
 func AddTask(task string){
@@ -155,6 +213,7 @@ func SwitchCase() {
 		fmt.Println("-------------------------")
 	}
 
+
 	ShowTasks()
 
    	case "3":
@@ -187,6 +246,15 @@ func Start() {
 		log.Fatalf("failed to init database: %v",err)
 	}
 	fmt.Printf("Database initlizaed at : %s\n", dbPath)
+
+	text := "Task Man"
+
+	letters := putils.LettersFromString(text)
+
+	pterm.DefaultBigText.WithLetters(letters).Render()
+		
+	
+
     fmt.Println("------WELCOME TO TASK MANAGER-------")
 	
 	// testTask := "Walk dog"
