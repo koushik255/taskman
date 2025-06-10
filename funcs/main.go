@@ -29,6 +29,19 @@ func ShowTasks(){
 
 
 
+func Take_input() (string,error) {
+	reader := bufio.NewReader(os.Stdin)
+
+    input, err := reader.ReadString('\n')
+    if err != nil {
+    	fmt.Println("Error reading input: ",err)
+    	return "",err
+    }
+    input = strings.TrimSpace(input)
+    return input, nil
+}
+
+
 func showOptions() {
 		fmt.Println("Select a option")
     	fmt.Println("Select option 1 to create a new Task!")
@@ -41,13 +54,14 @@ func AddTask(task string){
 	Start()
 	// fmt.Println("add")
     // 	reader := bufio.NewReader(os.Stdin)
-    // fmt.Println("Type your Task!")
+    fmt.Println("Type your Task!")
 
     // input, err := reader.ReadString('\n')
     // if err != nil {
     // 	fmt.Println("Error reading input: ",err)
     // 	return
     // }
+    fmt.Println("Type your Task!")
 	testComplete := 1
 	err := db.AddTask(task,testComplete)
 	if err != nil {
@@ -58,14 +72,12 @@ func AddTask(task string){
 func AddTaskOriginal(){
 	Start()
 	fmt.Println("add")
-    	reader := bufio.NewReader(os.Stdin)
-    fmt.Println("Type your Task!")
-
-    input, err := reader.ReadString('\n')
-    if err != nil {
-    	fmt.Println("Error reading input: ",err)
-    	return
-    }
+	fmt.Println("Type your Task!")
+    	input,err := Take_input()
+    	if err != nil {
+    		fmt.Println("Error taking input!")
+    		}
+    	
 	testComplete := 1
 	err = db.AddTask(input,testComplete)
 	if err != nil {
@@ -74,8 +86,8 @@ func AddTaskOriginal(){
 }
 
 func CompleteTask(task string) {
-	fmt.Println("complete tasks")
-   		ShowTasks()
+	fmt.Println("Type your Task to Complete!")
+   	ShowTasks()
    	// 	reader := bufio.NewReader(os.Stdin)
     // fmt.Println("Type your Task to Complete!")
 
@@ -84,6 +96,7 @@ func CompleteTask(task string) {
     // 	fmt.Println("Error reading input: ",err)
     // 	return
     // }
+
     task = strings.TrimSpace(task)
     taskToDelete,err := strconv.Atoi(task)
     if err != nil {
@@ -121,16 +134,16 @@ func SwitchCase() {
 
    	case "2":
    		fmt.Println("complete tasks")
-   		ShowTasks()
-   		reader := bufio.NewReader(os.Stdin)
-    fmt.Println("Type your Task to Complete!")
+   	    fmt.Println("Type your Task to Complete!")
 
-    input, err := reader.ReadString('\n')
-    if err != nil {
-    	fmt.Println("Error reading input: ",err)
-    	return
-    }
-    input = strings.TrimSpace(input)
+
+   		ShowTasks()
+   		///
+   		input,err := Take_input()
+   		if err != nil {
+   			fmt.Println("Erorring taking input")
+   		}
+    //
     taskToDelete,err := strconv.Atoi(input)
     if err != nil {
     	fmt.Println("error converting string to int",err)
@@ -140,13 +153,14 @@ func SwitchCase() {
 		fmt.Println("-------------------------")
 		fmt.Printf("Error deleting task %v\n",err)
 		fmt.Println("-------------------------")
-
 	}
 
 	ShowTasks()
 
    	case "3":
-   		fmt.Println("Show tasks")
+   		fmt.Println("-------------------------")
+   		fmt.Println("Showing Tasks")
+   		fmt.Println("-------------------------")
    		ShowTasks()
    	case "exit":
    		fmt.Println("Exiting program")
@@ -173,6 +187,7 @@ func Start() {
 		log.Fatalf("failed to init database: %v",err)
 	}
 	fmt.Printf("Database initlizaed at : %s\n", dbPath)
+    fmt.Println("------WELCOME TO TASK MANAGER-------")
 	
 	// testTask := "Walk dog"
 	// testComplete := 1
@@ -197,7 +212,6 @@ func Start() {
     //     }
     // }
 
-    fmt.Println("------WELCOME TO TASK MANAGER-------")
     
  
 

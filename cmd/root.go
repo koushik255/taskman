@@ -33,26 +33,8 @@ func Execute() {
 func init() {
 	// Add commands and flags in init()
 	
-	// Create greet command
-	var greetCmd = &cobra.Command{
-		Use:   "greet [name]",
-		Short: "Greets a person",
-		Args:  cobra.MaximumNArgs(1),
-		Run: func(cmd *cobra.Command, args []string) {
-			name := "World"
-			if len(args) > 0 {
-				name = args[0]
-			}
-			
-			uppercase, _ := cmd.Flags().GetBool("uppercase")
-			greeting := fmt.Sprintf("Hello, %s!", name)
-			if uppercase {
-				greeting = fmt.Sprintf("HELLO, %s!", name)
-			}
-			
-			fmt.Println(greeting)
-		},
-	}
+	
+	
 
 	var addTaskCmd = &cobra.Command{
 		Use: "add [task]",
@@ -83,17 +65,14 @@ func init() {
 			task := strings.Join(args, "")
 			blud.Start()
 			blud.CompleteTask(task)
-
 		},
 	}
 
 
 
 	// Add flags to greet command
-	greetCmd.Flags().BoolP("uppercase", "u", false, "Display the greeting in uppercase")
 	
 	// Add greet command to root command
-	rootCmd.AddCommand(greetCmd)
 	rootCmd.AddCommand(addTaskCmd)
 	rootCmd.AddCommand(showTaskCmd)
 	rootCmd.AddCommand(deleteTaskCmd)
